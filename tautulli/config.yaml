@@ -23,3 +23,5 @@ map:
   - backup:rw
 schema:
   log_level: list(trace|debug|info|notice|warning|error|fatal)?
+ingress: true
+ingress_port: 8181
