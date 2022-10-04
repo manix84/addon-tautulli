@@ -25,3 +25,5 @@ schema:
   log_level: list(trace|debug|info|notice|warning|error|fatal)?
 ingress: true
 ingress_port: 8181
+panel_icon: mdi:filmstrip
+panel_title: "Tautulli"
