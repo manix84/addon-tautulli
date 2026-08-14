@@ -48,8 +48,11 @@ This option is enabled by default. It skips Tautulli's username and password
 step during first-run setup and relies on Home Assistant to authenticate users
 through Ingress.
 
-Set the option to `false` and restart the add-on if you want to configure and
-use Tautulli's own authentication inside Home Assistant Ingress.
+Direct access on port `8181` is disabled while this option is enabled, because
+Tautulli does not have its own authentication protecting that endpoint. Set the
+option to `false` and restart the add-on to enable Tautulli's authentication.
+After configuring a Tautulli username and password, restart the add-on once more
+to re-enable direct access on port `8181`.
 
 **Note**: _Remember to restart the add-on when the configuration is changed._
 

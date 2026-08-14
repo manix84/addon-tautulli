@@ -6,6 +6,7 @@
 # ==============================================================================
 readonly ADDON=/data/addon.ini
 readonly CONFIG=/data/config.ini
+readonly NGINX_CONFIG=/etc/nginx/nginx.conf
 readonly WELCOME_TEMPLATE=/opt/data/interfaces/default/welcome.html
 
 # Check SSL cerrificate
@@ -65,7 +66,21 @@ if ! bashio::config.has_value "disable_authentication" \
     sed -i \
       's/var wizard = $("#setup-wizard").wizard(options);/var wizard = $("#setup-wizard").wizard(options); wizard.cards.card2.disable();/' \
       "$WELCOME_TEMPLATE"
-
+    sed -i \
+      's/# %%ACCESS_CONTROL%%/allow 172.30.32.2; deny all;/' \
+      "$NGINX_CONFIG"
+else
+    HTTP_PASSWORD="$(crudini --get "$CONFIG" General http_password 2>/dev/null || true)"
+    if bashio::var.has_value "$HTTP_PASSWORD"; then
+        bashio::log.info "Enabling authenticated direct access on port 8181..."
+        sed -i 's/# %%ACCESS_CONTROL%%/allow all;/' "$NGINX_CONFIG"
+    else
+        bashio::log.warning \
+          "Direct access remains disabled until Tautulli authentication is configured."
+        sed -i \
+          's/# %%ACCESS_CONTROL%%/allow 172.30.32.2; deny all;/' \
+          "$NGINX_CONFIG"
+    fi
 fi
 
 # Changing config.ini back.

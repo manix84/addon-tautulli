@@ -4,8 +4,12 @@ configuration:
     name: Disable Tautulli authentication
     description: >-
       Skips Tautulli's username and password setup and relies on Home Assistant
-      Ingress authentication.
+      Ingress authentication. Direct access on port 8181 is blocked while this
+      option is enabled, and is restored after Tautulli authentication is
+      configured.
   log_level:
     name: Log level
     description: >-
       Controls the level of log details the add-on provides.
+network:
+  8181/tcp: Web interface

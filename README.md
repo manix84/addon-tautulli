@@ -40,8 +40,8 @@ With Tautulli you can:
 - A working Plex Media Server is required; this add-on does not include Plex.
 - The first start can take a few minutes while Tautulli is initialized.
 - Tautulli guides you through connecting to Plex when you first open the Web UI.
-- Home Assistant Ingress is used so Tautulli is not exposed directly to the
-  local network.
+- Home Assistant Ingress is used by default. Direct access on port `8181` is
+  enabled only after Tautulli authentication is enabled and configured.
 
 This add-on stores its Tautulli configuration and database in the add-on data
 directory, where they are included in Home Assistant add-on backups.
