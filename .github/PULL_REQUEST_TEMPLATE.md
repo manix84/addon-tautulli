@@ -1,9 +1,21 @@
-# Proposed Changes
+# Proposed changes
 
-> (Describe the changes and rationale behind them)
+Describe the changes and why they are needed.
 
-## Related Issues
+## Related issues
 
-> ([Github link][autolink-references] to related issues or pull requests)
+Link related issues or pull requests using [GitHub keywords][closing-keywords]
+where appropriate.
 
-[autolink-references]: https://help.github.com/articles/autolinked-references-and-urls/
+## Validation
+
+List the checks, image builds, architectures, and Home Assistant behavior you
+tested.
+
+## Checklist
+
+- [ ] The change is limited to the add-on packaging or integration layer.
+- [ ] Documentation and `WHATSNEW.md` are updated when behavior changes.
+- [ ] Logs and screenshots contain no credentials, tokens, or personal data.
+
+[closing-keywords]: https://docs.github.com/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
