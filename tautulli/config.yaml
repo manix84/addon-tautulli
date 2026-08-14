@@ -1,8 +1,8 @@
 ---
 name: Tautulli
-version: 0.3.0
+version: dev
 slug: tautulli
-description: Plex Media Server monitoring, analytics, and notifications
+description: Monitoring and tracking tool for Plex Media Server
 url: https://github.com/hassio-addons/addon-tautulli/tree/main/README.md
 arch:
   - aarch64

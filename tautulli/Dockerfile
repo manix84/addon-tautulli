@@ -2,6 +2,10 @@ ARG BUILD_FROM=ghcr.io/hassio-addons/debian-base:9.3.0
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
+ENV \
+  PIP_BREAK_SYSTEM_PACKAGES=1 \
+  TAUTULLI_VERSION="v2.17.2"
+
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -13,38 +17,42 @@ COPY requirements.txt /tmp/
 
 # Setup base
 ARG BUILD_ARCH=amd64
-ENV TAUTULLI_VERSION="v2.17.2"
 # hadolint ignore=DL3008
 RUN \
   apt-get update \
   && apt-get install -y --no-install-recommends \
-    git \
+    build-essential=12.12 \
+    git=1:2.47.3-0+deb13u1 \
     nginx-full \
     openssl \
-    python3-pip \
-    python3 \
+    python3-dev=3.13.5-1 \
+    python3-pip=25.1.1+dfsg-1 \
+    python3=3.13.5-1 \
   \
   && python3 -m pip install \
-    --break-system-packages \
     --no-cache-dir \
     --prefer-binary \
+    --extra-index-url "https://www.piwheels.org/simple" \
     -r /tmp/requirements.txt \
   \
   && git clone --branch "${TAUTULLI_VERSION}" --depth=1 \
     https://github.com/Tautulli/Tautulli.git /opt \
   \
-  && apt-get purge -y --auto-remove \
-    git \
-    python3-pip \
-  && apt-get clean \
+  && find /usr/local \
+    \( -type d -a -name test -o -name tests -o -name '__pycache__' \) \
+    -o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
+    -exec rm -rf '{}' + \
   \
-  && rm -rf \
-    /opt/.git \
-    /opt/.github \
-    /opt/init-scripts \
+  && apt-get purge -y --auto-remove \
+    build-essential \
+    git \
+    python3-dev \
+    python3-pip \
+  \
+  && rm -fr \
+    /opt/{.git,.github,init-scripts} \
     /tmp/* \
-    /var/cache/* \
-    /var/log/* \
+    /var/{cache,log}/* \
     /var/lib/apt/lists/*
 
 # Copy root filesystem
