@@ -59,8 +59,8 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the repository maintainer using the private contact methods on the
-[maintainer's GitHub profile](https://github.com/manix84).
+reported to the community leaders responsible for enforcement at
+frenck@frenck.dev.
 
 All complaints will be reviewed and investigated promptly and fairly.
 
