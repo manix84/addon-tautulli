@@ -1,8 +1,8 @@
 # Contributing
 
-When contributing to this repository, please first discuss the change you wish
-to make via issue, email, or any other method with the owners of this repository
-before making a change.
+Before starting a substantial change, open an issue to discuss the problem and
+proposed approach with the maintainer. Small fixes may be submitted directly as
+a pull request.
 
 Please note we have a code of conduct, please follow it in all your interactions
 with the project.
@@ -21,9 +21,10 @@ Even better: You could submit a pull request with a fix / new feature!
 1. Search our repository for open or closed [pull requests][prs] that relates
    to your submission. You don't want to duplicate effort.
 
-1. You may merge the pull request in once you have the sign-off of two other
-   developers, or if you do not have permission to do that, you may request
-   the second reviewer to merge it for you.
+1. Keep each pull request focused on one change and include the validation you
+   performed.
 
-[github]: https://github.com/hassio-addons/addon-tautulli/issues
-[prs]: https://github.com/hassio-addons/addon-tautulli/pulls
+1. A maintainer will review and merge accepted pull requests.
+
+[github]: https://github.com/manix84/addon-tautulli/issues
+[prs]: https://github.com/manix84/addon-tautulli/pulls
