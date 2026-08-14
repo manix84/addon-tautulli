@@ -40,6 +40,8 @@ With Tautulli you can:
 - Home Assistant Ingress is used by default. Direct access on port `8181` is
   enabled only when authentication credentials are configured in the add-on
   options. NGINX enforces those credentials independently of Tautulli's settings.
+- Home Assistant Core can access Tautulli's API over the private app network;
+  the web interface remains protected by Home Assistant Ingress.
 
 This add-on stores its Tautulli configuration and database in the add-on data
 directory, where they are included in Home Assistant add-on backups.

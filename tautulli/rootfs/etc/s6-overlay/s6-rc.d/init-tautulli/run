@@ -127,11 +127,26 @@ else
     fi
 fi
 
+# Home Assistant Core and apps share this internal network. When enabled, only
+# Tautulli's API endpoint is reachable from it; the API key remains mandatory.
+if ! bashio::config.has_value "api_access" \
+    || bashio::config.true "api_access"; then
+    bashio::log.info "Enabling Tautulli API access for Home Assistant..."
+    sed -i \
+      's/# %%API_ACCESS_CONTROL%%/allow 172.30.32.0\/23; deny all;/' \
+      "$NGINX_CONFIG"
+else
+    bashio::log.info "Tautulli API access for Home Assistant is disabled."
+    sed -i \
+      's/# %%API_ACCESS_CONTROL%%/deny all;/' \
+      "$NGINX_CONFIG"
+fi
+
 # Changing config.ini back.
 ## This has to be done because Tautulli added a ini header with [[header]]
 sed -i "s/\\[get_file_sizes_hold\\]/\\[\\[get_file_sizes_hold\\]\\]/" "$CONFIG"
 
-if grep -Eq '%%(ACCESS_CONTROL|DIRECT_AUTHENTICATION)%%' "$NGINX_CONFIG"; then
+if grep -Eq '%%(ACCESS_CONTROL|API_ACCESS_CONTROL|DIRECT_AUTHENTICATION)%%' "$NGINX_CONFIG"; then
     bashio::log.fatal "Failed to configure the Ingress proxy access controls."
     exit 1
 fi
