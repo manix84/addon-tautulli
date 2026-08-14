@@ -1,159 +1,198 @@
-# Home Assistant Add-on: Tautulli
+# Home Assistant Community Add-on: Tautulli
 
-Tautulli monitors your Plex Media Server and provides watch history, user and
-library statistics, graphs, stream details, and notifications.
+Tautulli monitors your Plex Media Server and turns its activity into detailed
+watch history, user and library statistics, graphs, and notifications. It can
+show who is streaming, what they are watching, where they are watching from,
+and how each stream is being played.
+
+## Getting started
+
+After starting the add-on, select **Open Web UI** to launch Tautulli inside Home
+Assistant. On first use, Tautulli's setup wizard will guide you through signing
+in and connecting to your Plex Media Server.
+
+Once setup is complete, you can use Tautulli to:
+
+- Monitor current Plex streams and playback details.
+- Search and filter watch history.
+- Compare statistics across users and libraries.
+- Explore activity trends using configurable graphs.
+- Create notifications for playback events and newly added media.
+
+To keep Tautulli readily available, enable **Show in sidebar** on the add-on's
+**Info** tab.
 
 ## Installation
 
-This add-on is currently distributed as a local Home Assistant add-on:
+The installation of this add-on is pretty straightforward and not different in
+comparison to installing any other Home Assistant add-on.
 
-1. Copy this repository's `tautulli` directory to `/addons/tautulli` on the
-   Home Assistant host.
-1. In Home Assistant, go to **Settings** > **Add-ons** > **Add-on Store**.
-1. Open the menu and select **Check for updates** so Home Assistant reloads the
-   local add-ons.
-1. Select **Tautulli** and choose **Install**.
-1. Start the add-on and review its log for errors.
-1. Select **Open Web UI** and follow Tautulli's wizard to connect to Plex.
+1. Click the Home Assistant My button below to open the add-on on your Home
+   Assistant instance.
 
-The initial image build and first start can take a few minutes. The wizard does
-not request a Tautulli web username or password because access is protected by
-Home Assistant Ingress or the add-on's direct-access proxy.
+   [![Open this add-on in your Home Assistant instance.][addon-badge]][addon]
 
-Updating or rebuilding the add-on preserves the Tautulli configuration and
-database in the add-on data directory. Create a Home Assistant backup before a
-significant upgrade.
+1. Click the "Install" button to install the add-on.
+1. Start the "Tautulli" add-on.
+1. Check the logs of the "Tautulli" add-on to see if everything went well.
+1. Click "OPEN WEB UI" to open Tautulli and follow the setup wizard.
 
-## Ingress and sidebar access
-
-The recommended access method is **Open Web UI**. This uses Home Assistant
-Ingress, so users must already be authenticated by Home Assistant and no port
-exposure is required.
-
-To keep Tautulli in the Home Assistant navigation, enable **Show in sidebar**
-on the add-on's **Info** tab.
-
-The add-on manages Tautulli's internal HTTP root automatically. Do not change
-the HTTP root or authentication settings inside Tautulli; the values are reset
-at startup to keep Ingress routing and the authentication boundary consistent.
+**NOTE**: Starting the add-on might take a couple of minutes (especially the
+first time starting the add-on).
 
 ## Configuration
 
 ### Option: `disable_authentication`
 
-The default is `true`. In this mode, only Home Assistant Ingress is allowed and
-direct requests to port `8181` are blocked.
+This option is enabled by default. It skips Tautulli's redundant username and
+password step during first-run setup and relies on Home Assistant to authenticate
+users through Ingress.
 
-Set this option to `false` only when direct access is required. You must also
-provide `authentication_username` and `authentication_password`. After the
-add-on restarts, NGINX protects direct requests with HTTP Basic Authentication,
-while Ingress continues to use Home Assistant authentication.
+Direct access on port `8181` is disabled while this option is enabled, because
+Tautulli does not have its own authentication protecting that endpoint.
 
-Tautulli's own web authentication remains disabled in both modes. This avoids a
-second login through Ingress and prevents Tautulli settings from accidentally
-creating an unauthenticated direct endpoint.
-
-If direct authentication is enabled but either credential is absent, the add-on
-logs a warning and remains in its safe, Ingress-only mode.
+Set the option to `false`, provide `authentication_username` and
+`authentication_password`, and restart the add-on to enable authentication and
+direct access. NGINX enforces these credentials before forwarding direct
+requests to Tautulli. Tautulli's own authentication remains disabled to avoid a
+second login prompt. Changing authentication settings inside Tautulli therefore
+cannot expose the direct port without a password.
 
 ### Option: `authentication_username`
 
-The username required by NGINX for direct access when
-`disable_authentication: false`. It may contain letters, numbers, underscores,
-periods, `@`, and hyphens.
+The username NGINX requires for direct access when `disable_authentication` is
+`false`.
 
 ### Option: `authentication_password`
 
-The password required by NGINX for direct access when
-`disable_authentication: false`. Home Assistant masks it in the add-on options.
-Treat add-on configuration and backups as sensitive because administrators can
-access these settings.
+The password NGINX requires for direct access when `disable_authentication` is
+`false`. The password is masked in the Home Assistant configuration UI. Change
+direct-access credentials in the add-on options rather than in Tautulli.
 
-Change direct-access credentials in the add-on options, then restart the
-add-on. Do not configure them in Tautulli.
+If either credential is missing, the add-on starts in its safe ingress-only mode
+and keeps direct access blocked.
 
-### Option: `log_level`
+**Note**: _Remember to restart the add-on when the configuration is changed._
 
-The log level defaults to `info`. Supported values are:
-
-- `trace`: All available diagnostic detail.
-- `debug`: Detailed troubleshooting information.
-- `info`: Normal operational messages.
-- `notice`: Significant normal events.
-- `warning`: Unexpected conditions that do not stop the add-on.
-- `error`: Runtime errors.
-- `fatal`: Errors that make the add-on unusable.
-
-Each level also includes messages at higher severities. Use `debug` or `trace`
-temporarily when troubleshooting because verbose logs may contain more private
-information.
-
-### Examples
-
-Recommended Ingress-only configuration:
+Example add-on configuration:
 
 ```yaml
 disable_authentication: true
 log_level: info
 ```
 
-Authenticated direct access:
+### Option: `log_level`
 
-```yaml
-disable_authentication: false
-authentication_username: tautulli
-authentication_password: change-this-password
-log_level: info
-```
+The `log_level` option controls the level of log output by the addon and can
+be changed to be more or less verbose, which might be useful when you are
+dealing with an unknown issue. Possible values are:
 
-Restart the add-on after changing any option.
+- `trace`: Show every detail, like all called internal functions.
+- `debug`: Shows detailed debug information.
+- `info`: Normal (usually) interesting events.
+- `warning`: Exceptional occurrences that are not errors.
+- `error`: Runtime errors that do not require immediate action.
+- `fatal`: Something went terribly wrong. Add-on becomes unusable.
 
-## Data, backups, and privacy
+Please note that each level automatically includes log messages from a
+more severe level, e.g., `debug` also shows `info` messages. By default,
+the `log_level` is set to `info`, which is the recommended setting unless
+you are troubleshooting.
 
-Tautulli's database and configuration are stored in the add-on data directory.
-Its application backups are stored under `/backup/tautulli`. Home Assistant
-backups can therefore contain Plex tokens, viewing history, and direct-access
-credentials.
+## Access
 
-Review the repository's [privacy notice][privacy] and redact credentials,
-tokens, hostnames, IP addresses, and personal media information from logs before
-sharing them.
+The recommended way to use Tautulli is through **Open Web UI** or the Home
+Assistant sidebar. Both use Home Assistant Ingress and do not require Tautulli
+to be exposed outside your Home Assistant instance.
 
-## Troubleshooting
+## Embedding into Home Assistant
 
-- If the sidebar entry is missing, confirm the add-on is running and **Show in
-  sidebar** is enabled on its **Info** tab.
-- If **Open Web UI** returns an error, inspect the add-on log for Tautulli or
-  NGINX startup failures and restart the add-on once.
-- If direct access is blocked, confirm `disable_authentication` is `false`, both
-  credentials are present, and the add-on was restarted.
-- A browser Basic Authentication prompt is expected only for direct access on
-  port `8181`; it should not appear through Ingress.
-- If Tautulli's wizard asks for its own web credentials, rebuild from the latest
-  add-on files and inspect the startup log for a wizard-template error.
+Tautulli supports Home Assistant Ingress and can be opened directly inside the
+Home Assistant frontend. On the add-on's **Info** tab, enable
+**Show in sidebar**. No `panel_iframe` configuration or externally exposed port
+is required.
+
+The add-on configures Tautulli's HTTP root automatically. If you previously set
+an HTTP root in Tautulli, restart the add-on so it can restore the correct
+Ingress path.
+
+## Changelog & Releases
+
+This repository keeps a change log using [GitHub's releases][releases]
+functionality.
+
+Releases are based on [Semantic Versioning][semver], and use the format
+of `MAJOR.MINOR.PATCH`. In a nutshell, the version will be incremented
+based on the following:
+
+- `MAJOR`: Incompatible or major changes.
+- `MINOR`: Backwards-compatible new features and enhancements.
+- `PATCH`: Backwards-compatible bugfixes and package updates.
 
 ## Support
 
-For installation, startup, Ingress, authentication, or packaging problems, use
-this repository's [support guide][support] or open a [bug report][issues].
+Got questions?
 
-For behavior that also occurs in a standard Tautulli installation, consult the
-upstream [Tautulli support guide][upstream-support]. Suspected vulnerabilities
-must be reported privately according to the [security policy][security].
+You have several options to get them answered:
 
-## Releases and license
+- The [Home Assistant Community Add-ons Discord chat server][discord] for
+  installation, add-on, and Home Assistant integration questions.
+- The [Home Assistant Discord chat server][discord-ha] for general Home
+  Assistant discussions and questions.
+- The Home Assistant [Community Forum][forum].
+- Join the [Reddit subreddit][reddit] in [/r/homeassistant][reddit]
 
-Release highlights are recorded in [What's New][whats-new]. Versions follow
-[Semantic Versioning][semver].
+For problems with this add-on, you can also [open an issue here][issue]. Include
+the add-on logs and remove any tokens or other private information before
+posting them.
 
-This add-on is distributed under the [MIT License][license]. The full copyright
-history, including the 2026 fork maintenance attribution, is kept in that file.
+For questions about Tautulli features or its Plex integration, use the upstream
+[Tautulli Wiki][tautulli-wiki], [FAQ][tautulli-faq], or
+[Discord community][tautulli-discord].
 
-[issues]: https://github.com/manix84/addon-tautulli/issues
-[license]: ../LICENSE.md
-[privacy]: ../PRIVACY.md
-[security]: ../.github/SECURITY.md
+## Authors & contributors
+
+The original setup of this repository is by [Joakim Sørensen][ludeeus].
+
+For a full list of all authors and contributors,
+check [the contributor's page][contributors].
+
+## License
+
+MIT License
+
+- Copyright (c) 2018-2019 Joakim Sørensen
+- Copyright (c) 2019-2023 Franck Nijhof
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+[addon-badge]: https://my.home-assistant.io/badges/supervisor_addon.svg
+[addon]: https://my.home-assistant.io/redirect/supervisor_addon/?addon=a0d7b954_tautulli&repository_url=https%3A%2F%2Fgithub.com%2Fhassio-addons%2Frepository
+[contributors]: https://github.com/hassio-addons/addon-tautulli/graphs/contributors
+[discord-ha]: https://discord.gg/c5DvZ4e
+[discord]: https://discord.me/hassioaddons
+[forum]: https://community.home-assistant.io/t/home-assistant-community-add-on-tautulli/68745
+[issue]: https://github.com/hassio-addons/addon-tautulli/issues
+[ludeeus]: https://github.com/ludeeus
+[reddit]: https://reddit.com/r/homeassistant
+[releases]: https://github.com/hassio-addons/addon-tautulli/releases
 [semver]: https://semver.org/spec/v2.0.0.html
-[support]: ../.github/SUPPORT.md
-[upstream-support]: https://github.com/Tautulli/Tautulli/wiki/Asking-for-Support
-[whats-new]: ../WHATSNEW.md
+[tautulli-discord]: https://tautulli.com/discord
+[tautulli-faq]: https://github.com/Tautulli/Tautulli/wiki/Frequently-Asked-Questions
+[tautulli-wiki]: https://github.com/Tautulli/Tautulli/wiki

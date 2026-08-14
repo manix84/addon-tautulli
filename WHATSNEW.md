@@ -7,8 +7,8 @@
 - Added Home Assistant Ingress and sidebar support.
 - Made Ingress-only access the secure default.
 - Added optional, independently authenticated direct access on port `8181`.
-- Removed Tautulli authentication from the first-run wizard. Home Assistant
-  protects Ingress, and NGINX protects optional direct access.
+- Removed Tautulli authentication from the first-run wizard when Home Assistant
+  provides the authentication boundary.
 - Updated the add-on branding and documentation.
 - Updated supported architectures to `amd64` and `aarch64`.
 

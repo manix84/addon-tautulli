@@ -1,99 +1,141 @@
-# Home Assistant Add-on: Tautulli
+# Home Assistant Community Add-on: Tautulli
 
 [![GitHub Release][releases-shield]][releases]
-[![CI][github-actions-shield]][github-actions]
+![Project Stage][project-stage-shield]
 [![License][license-shield]](LICENSE.md)
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
+[![Github Actions][github-actions-shield]][github-actions]
+![Project Maintenance][maintenance-shield]
+[![GitHub Activity][commits-shield]][commits]
+
+[![Discord][discord-shield]][discord]
+[![Community Forum][forum-shield]][forum]
+
 Monitor, understand, and get notified about activity on your Plex Media Server.
 
-![Screenshot of Tautulli][screenshot]
+![Screenshot][screenshot]
 
 ## About
 
-[Tautulli][tautulli] provides monitoring, analytics, watch history, graphs, and
-notifications for Plex Media Server. This add-on packages Tautulli for Home
-Assistant OS and provides access through Home Assistant Ingress and the
-sidebar.
+Tautulli is a web application for monitoring, analytics, and notifications for
+[Plex Media Server][plex]. This add-on packages Tautulli so it can run alongside
+Home Assistant and open directly from the Home Assistant sidebar.
 
-The add-on currently packages Tautulli `2.17.2` and supports `aarch64` and
-`amd64` systems.
+With Tautulli you can:
 
-## Access and authentication
+- Monitor current Plex streams, including users, devices, quality, and location.
+- Explore watch history and detailed statistics for users and libraries.
+- View configurable graphs, popular content, and server activity trends.
+- Send customizable notifications for playback activity and newly added media.
+- Use a responsive interface on desktop, tablet, and mobile browsers.
 
-Home Assistant Ingress is the secure default. Leave
-`disable_authentication: true` to use **Open Web UI** or **Show in sidebar**;
-the direct port remains blocked.
+## Before you install
 
-If direct access on port `8181` is required, set
-`disable_authentication: false` and provide both `authentication_username` and
-`authentication_password`. NGINX requires those credentials for direct
-requests, while Ingress continues to use Home Assistant authentication.
-Tautulli's own web authentication stays disabled so it cannot weaken the proxy
-boundary or add a second login prompt.
+- A working Plex Media Server is required; this add-on does not include Plex.
+- The first start can take a few minutes while Tautulli is initialized.
+- Tautulli guides you through connecting to Plex when you first open the Web UI.
+- Home Assistant Ingress is used by default. Direct access on port `8181` is
+  enabled only when authentication credentials are configured in the add-on
+  options. NGINX enforces those credentials independently of Tautulli's settings.
 
-## Installation
-
-This repository is currently installed as a local Home Assistant add-on:
-
-1. Copy the `tautulli` directory into the Home Assistant `/addons` directory.
-1. In Home Assistant, go to **Settings** > **Add-ons** > **Add-on Store**.
-1. Open the menu and select **Check for updates** to reload local add-ons.
-1. Select **Tautulli**, install it, and start it.
-1. Select **Open Web UI** and connect Tautulli to Plex.
-1. Optionally enable **Show in sidebar** on the add-on's **Info** tab.
-
-Updating the add-on files does not replace Tautulli's database or configuration
-stored in the add-on data directory. A Home Assistant backup is still
-recommended before upgrading.
+This add-on stores its Tautulli configuration and database in the add-on data
+directory, where they are included in Home Assistant add-on backups.
 
 [:books: Read the full add-on documentation][docs]
 
-## Support and contributing
+## Support
 
-Use this repository's [support guide][support] for help, or open an
-[issue][issues] for an add-on problem. Problems that also occur in a standard
-Tautulli installation should be reported to the [upstream project][upstream].
+Got questions?
 
-Contributions are welcome; review the [contribution guidelines][contributing]
-before opening a pull request. Suspected vulnerabilities must be reported
-privately according to the [security policy][security].
+You have several options to get them answered:
 
-## Privacy and releases
+- The [Home Assistant Community Add-ons Discord chat server][discord] for
+  installation, add-on, and Home Assistant integration questions.
+- The [Home Assistant Discord chat server][discord-ha] for general Home
+  Assistant discussions and questions.
+- The Home Assistant [Community Forum][forum].
+- Join the [Reddit subreddit][reddit] in [/r/homeassistant][reddit]
 
-See the [privacy notice][privacy] for details about local data, credentials,
-logs, backups, and external connections. Release highlights are recorded in
-[What's New][whats-new].
+For problems with this add-on, you can also [open an issue here][issue]. For
+questions about Tautulli itself, see the upstream [Tautulli Wiki][tautulli-wiki],
+[FAQ][tautulli-faq], or [Discord community][tautulli-discord].
 
-## Credits and license
+## Contributing
 
-The original add-on was created by [Joakim Sørensen][ludeeus] and later
-maintained by [Franck Nijhof][frenck]. This fork is maintained by
-[Rob Taylor][maintainer]. See the [contributors page][contributors] for the
-complete history.
+This is an active open-source project. We are always open to people who want to
+use the code or contribute to it.
 
-This project is available under the [MIT License](LICENSE.md).
+We have set up a separate document containing our
+[contribution guidelines](.github/CONTRIBUTING.md).
+
+Thank you for being involved! :heart_eyes:
+
+## Authors & contributors
+
+The original setup of this repository is by [Joakim Sørensen][ludeeus].
+
+For a full list of all authors and contributors,
+check [the contributor's page][contributors].
+
+## We have got some Home Assistant add-ons for you
+
+Want some more functionality to your Home Assistant instance?
+
+We have created multiple add-ons for Home Assistant. For a full list, check out
+our [GitHub Repository][repository].
+
+## License
+
+MIT License
+
+- Copyright (c) 2018-2019 Joakim Sørensen
+- Copyright (c) 2019-2023 Franck Nijhof
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
-[contributors]: https://github.com/manix84/addon-tautulli/graphs/contributors
-[contributing]: .github/CONTRIBUTING.md
-[docs]: tautulli/DOCS.md
-[frenck]: https://github.com/frenck
-[github-actions-shield]: https://github.com/manix84/addon-tautulli/actions/workflows/ci.yaml/badge.svg
-[github-actions]: https://github.com/manix84/addon-tautulli/actions/workflows/ci.yaml
-[issues]: https://github.com/manix84/addon-tautulli/issues
-[license-shield]: https://img.shields.io/github/license/manix84/addon-tautulli.svg
+[commits-shield]: https://img.shields.io/github/commit-activity/y/hassio-addons/addon-tautulli.svg
+[commits]: https://github.com/hassio-addons/addon-tautulli/commits/main
+[contributors]: https://github.com/hassio-addons/addon-tautulli/graphs/contributors
+[discord-ha]: https://discord.gg/c5DvZ4e
+[discord-shield]: https://img.shields.io/discord/478094546522079232.svg
+[discord]: https://discord.me/hassioaddons
+[docs]: https://github.com/hassio-addons/addon-tautulli/blob/main/tautulli/DOCS.md
+[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg
+[forum]: https://community.home-assistant.io/t/home-assistant-community-add-on-tautulli/68745
+[github-actions-shield]: https://github.com/hassio-addons/addon-tautulli/workflows/CI/badge.svg
+[github-actions]: https://github.com/hassio-addons/addon-tautulli/actions
+[issue]: https://github.com/hassio-addons/addon-tautulli/issues
+[license-shield]: https://img.shields.io/github/license/hassio-addons/addon-tautulli.svg
 [ludeeus]: https://github.com/ludeeus
-[maintainer]: https://github.com/manix84
-[privacy]: PRIVACY.md
-[releases-shield]: https://img.shields.io/github/v/release/manix84/addon-tautulli
-[releases]: https://github.com/manix84/addon-tautulli/releases
-[screenshot]: images/screenshot.png
-[security]: .github/SECURITY.md
-[support]: .github/SUPPORT.md
-[tautulli]: https://tautulli.com/
-[upstream]: https://github.com/Tautulli/Tautulli
-[whats-new]: WHATSNEW.md
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2023.svg
+[plex]: https://www.plex.tv/media-server-downloads/
+[project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
+[reddit]: https://reddit.com/r/homeassistant
+[releases-shield]: https://img.shields.io/github/release/hassio-addons/addon-tautulli.svg
+[releases]: https://github.com/hassio-addons/addon-tautulli/releases
+[repository]: https://github.com/hassio-addons/repository
+[screenshot]: https://github.com/hassio-addons/addon-tautulli/raw/main/images/screenshot.png
+[tautulli-discord]: https://tautulli.com/discord
+[tautulli-faq]: https://github.com/Tautulli/Tautulli/wiki/Frequently-Asked-Questions
+[tautulli-wiki]: https://github.com/Tautulli/Tautulli/wiki
