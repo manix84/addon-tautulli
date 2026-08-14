@@ -47,6 +47,11 @@ crudini --set "$ADDON" Addon version "$TAUTULLI_VERSION"
 crudini --set "$CONFIG" General check_github 0
 crudini --set "$CONFIG" General check_github_on_startup 0
 
+# NGINX replaces this internal root with each request's Home Assistant Ingress
+# path. Direct access is rewritten back to root.
+crudini --set "$CONFIG" General http_proxy 1
+crudini --set "$CONFIG" General http_root "/ingress"
+
 # Changing config.ini back.
 ## This has to be done because Tautulli added a ini header with [[header]]
 sed -i "s/\\[get_file_sizes_hold\\]/\\[\\[get_file_sizes_hold\\]\\]/" "$CONFIG"
