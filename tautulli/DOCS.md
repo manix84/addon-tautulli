@@ -50,18 +50,43 @@ Tautulli validates those requests using the API key from **Settings** >
 **Web interface**. Direct access to the web interface remains blocked when
 `disable_authentication` is enabled.
 
-For a locally installed copy of this add-on, configure Home Assistant's
-Tautulli integration with:
+#### Connect the Home Assistant Tautulli integration
+
+1. In Tautulli, open **Settings** > **Web interface** and copy the API key.
+1. In Home Assistant, open **Settings** > **Devices & services**.
+1. Select **Add integration**, then select **Tautulli**.
+1. Enter the following details for an installation from the official Home
+   Assistant Community Add-ons repository:
 
 ```text
-URL: http://local-tautulli:8181
+URL: http://a0d7b954-tautulli:8181
 API key: <the API key shown in Tautulli>
 Verify SSL certificate: off
 ```
 
-The internal URL uses plain HTTP, but traffic remains on Home Assistant's
-private app network. Repository installations use their generated app hostname
-instead of `local-tautulli`.
+For a copy installed in the local add-ons directory, use this URL instead:
+
+```text
+http://local-tautulli:8181
+```
+
+These are real DNS names on Home Assistant's private app network. Supervisor
+builds an app identifier from its repository identifier and slug, such as
+`local_tautulli`, then replaces underscores with hyphens to form the hostname
+`local-tautulli`. The official repository identifier produces
+`a0d7b954-tautulli`. These names normally resolve only from Home Assistant Core
+and other apps, not from computers on the local network.
+
+The internal hostname always uses container port `8181`. Changing the host port
+shown on the add-on's **Network** tab does not change this internal URL. The
+connection uses plain HTTP, but its traffic remains on Home Assistant's private
+app network.
+
+An installation from another add-on repository has a different generated
+repository identifier. If its internal hostname is unknown, use
+`http://<home-assistant-ip>:<mapped-port>` as a fallback, where `mapped-port` is
+the host port assigned to `8181/tcp` on the **Network** tab. Do not use HTTPS
+unless a separate TLS reverse proxy has explicitly been configured.
 
 Set `api_access` to `false` and restart the add-on to block API access from Home
 Assistant Core.
