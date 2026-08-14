@@ -130,3 +130,13 @@ fi
 # Changing config.ini back.
 ## This has to be done because Tautulli added a ini header with [[header]]
 sed -i "s/\\[get_file_sizes_hold\\]/\\[\\[get_file_sizes_hold\\]\\]/" "$CONFIG"
+
+if grep -Eq '%%(ACCESS_CONTROL|DIRECT_AUTHENTICATION)%%' "$NGINX_CONFIG"; then
+    bashio::log.fatal "Failed to configure the Ingress proxy access controls."
+    exit 1
+fi
+
+if ! nginx -t -c "$NGINX_CONFIG"; then
+    bashio::log.fatal "Generated Ingress proxy configuration is invalid."
+    exit 1
+fi
