@@ -4,11 +4,8 @@
 ![Project Stage][project-stage-shield]
 [![License][license-shield]](LICENSE.md)
 
-![Supports armhf Architecture][armhf-shield]
-![Supports armv7 Architecture][armv7-shield]
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
-![Supports i386 Architecture][i386-shield]
 
 [![Github Actions][github-actions-shield]][github-actions]
 ![Project Maintenance][maintenance-shield]
@@ -77,7 +74,7 @@ our [GitHub Repository][repository].
 MIT License
 
 - Copyright (c) 2018-2019 Joakim Sørensen
-- Copyright (c) 2019-2023 Franck Nijhof
+- Copyright (c) 2019-2025 Franck Nijhof
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -99,8 +96,6 @@ SOFTWARE.
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
-[armhf-shield]: https://img.shields.io/badge/armhf-yes-green.svg
-[armv7-shield]: https://img.shields.io/badge/armv7-yes-green.svg
 [commits-shield]: https://img.shields.io/github/commit-activity/y/hassio-addons/addon-tautulli.svg
 [commits]: https://github.com/hassio-addons/addon-tautulli/commits/main
 [contributors]: https://github.com/hassio-addons/addon-tautulli/graphs/contributors
@@ -112,11 +107,10 @@ SOFTWARE.
 [forum]: https://community.home-assistant.io/t/home-assistant-community-add-on-tautulli/68745
 [github-actions-shield]: https://github.com/hassio-addons/addon-tautulli/workflows/CI/badge.svg
 [github-actions]: https://github.com/hassio-addons/addon-tautulli/actions
-[i386-shield]: https://img.shields.io/badge/i386-yes-green.svg
 [issue]: https://github.com/hassio-addons/addon-tautulli/issues
 [license-shield]: https://img.shields.io/github/license/hassio-addons/addon-tautulli.svg
 [ludeeus]: https://github.com/ludeeus
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2023.svg
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2025.svg
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
 [reddit]: https://reddit.com/r/homeassistant
 [releases-shield]: https://img.shields.io/github/release/hassio-addons/addon-tautulli.svg
