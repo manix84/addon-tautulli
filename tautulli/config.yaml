@@ -4,7 +4,6 @@ version: dev
 slug: tautulli
 description: Monitoring and tracking tool for Plex Media Server
 url: https://github.com/hassio-addons/addon-tautulli/tree/main/README.md
-webui: "[PROTO:ssl]://[HOST]:[PORT:8181]"
 arch:
   - aarch64
   - amd64
@@ -17,7 +16,12 @@ ports_description:
 map:
   - share:rw
   - backup:rw
+options:
+  disable_authentication: true
 schema:
+  disable_authentication: bool?
+  authentication_username: match(^[A-Za-z0-9_.@-]+$)?
+  authentication_password: password?
   log_level: list(trace|debug|info|notice|warning|error|fatal)?
 ingress: true
 ingress_port: 8181
