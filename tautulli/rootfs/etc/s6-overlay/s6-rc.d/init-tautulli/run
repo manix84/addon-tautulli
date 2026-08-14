@@ -65,10 +65,16 @@ crudini --set "$CONFIG" General http_password ""
 crudini --set "$CONFIG" General http_plex_admin 0
 crudini --set "$CONFIG" General http_username ""
 
-# Skip the redundant authentication card in Tautulli's first-run wizard.
+# Remove the redundant authentication card from Tautulli's first-run wizard.
+# Removing the markup is more reliable than disabling the card in JavaScript
+# and ensures its inputs cannot be submitted accidentally.
 sed -i \
-  's/var wizard = $("#setup-wizard").wizard(options);/var wizard = $("#setup-wizard").wizard(options); wizard.cards.card2.disable();/' \
+  '/<div class="wizard-card" data-cardname="card2">/,/<div class="wizard-card" data-cardname="card3">/{ /<div class="wizard-card" data-cardname="card3">/!d; }' \
   "$WELCOME_TEMPLATE"
+if grep -q 'data-cardname="card2"' "$WELCOME_TEMPLATE"; then
+    bashio::log.fatal "Failed to remove Tautulli authentication from first-run setup."
+    exit 1
+fi
 
 if ! bashio::config.has_value "disable_authentication" \
     || bashio::config.true "disable_authentication"; then
