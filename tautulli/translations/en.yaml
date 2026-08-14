@@ -1,5 +1,11 @@
 ---
 configuration:
+  api_access:
+    name: Enable Home Assistant API access
+    description: >-
+      Allows Home Assistant Core to reach only Tautulli's API endpoint over the
+      internal app network. Requests still require the Tautulli API key, and
+      direct access to the web interface remains blocked.
   disable_authentication:
     name: Disable direct-access authentication
     description: >-

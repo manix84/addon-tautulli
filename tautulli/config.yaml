@@ -18,8 +18,10 @@ map:
   - backup:rw
 options:
   disable_authentication: true
+  api_access: true
 schema:
   disable_authentication: bool?
+  api_access: bool?
   authentication_username: match(^[A-Za-z0-9_.@-]+$)?
   authentication_password: password?
   log_level: list(trace|debug|info|notice|warning|error|fatal)?

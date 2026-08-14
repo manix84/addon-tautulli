@@ -42,6 +42,30 @@ first time starting the add-on).
 
 ## Configuration
 
+### Option: `api_access`
+
+This option is enabled by default. It allows Home Assistant Core to reach only
+Tautulli's `/api/v2` endpoint over Home Assistant's internal app network.
+Tautulli validates those requests using the API key from **Settings** >
+**Web interface**. Direct access to the web interface remains blocked when
+`disable_authentication` is enabled.
+
+For a locally installed copy of this add-on, configure Home Assistant's
+Tautulli integration with:
+
+```text
+URL: http://local-tautulli:8181
+API key: <the API key shown in Tautulli>
+Verify SSL certificate: off
+```
+
+The internal URL uses plain HTTP, but traffic remains on Home Assistant's
+private app network. Repository installations use their generated app hostname
+instead of `local-tautulli`.
+
+Set `api_access` to `false` and restart the add-on to block API access from Home
+Assistant Core.
+
 ### Option: `disable_authentication`
 
 This option is enabled by default. It skips Tautulli's redundant username and
@@ -78,6 +102,7 @@ Example add-on configuration:
 
 ```yaml
 disable_authentication: true
+api_access: true
 log_level: info
 ```
 
