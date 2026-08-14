@@ -6,6 +6,7 @@
 # ==============================================================================
 readonly ADDON=/data/addon.ini
 readonly CONFIG=/data/config.ini
+readonly WELCOME_TEMPLATE=/opt/data/interfaces/default/welcome.html
 
 # Check SSL cerrificate
 bashio::config.require.ssl
@@ -51,6 +52,21 @@ crudini --set "$CONFIG" General check_github_on_startup 0
 # path. Direct access is rewritten back to root.
 crudini --set "$CONFIG" General http_proxy 1
 crudini --set "$CONFIG" General http_root "/ingress"
+
+if ! bashio::config.has_value "disable_authentication" \
+    || bashio::config.true "disable_authentication"; then
+    bashio::log.info "Disabling Tautulli authentication for Ingress..."
+    crudini --set "$CONFIG" General http_basic_auth 0
+    crudini --set "$CONFIG" General http_password ""
+    crudini --set "$CONFIG" General http_plex_admin 0
+    crudini --set "$CONFIG" General http_username ""
+
+    # Skip the authentication card in Tautulli's first-run wizard.
+    sed -i \
+      's/var wizard = $("#setup-wizard").wizard(options);/var wizard = $("#setup-wizard").wizard(options); wizard.cards.card2.disable();/' \
+      "$WELCOME_TEMPLATE"
+
+fi
 
 # Changing config.ini back.
 ## This has to be done because Tautulli added a ini header with [[header]]

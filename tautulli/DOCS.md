@@ -42,6 +42,15 @@ first time starting the add-on).
 
 ## Configuration
 
+### Option: `disable_authentication`
+
+This option is enabled by default. It skips Tautulli's username and password
+step during first-run setup and relies on Home Assistant to authenticate users
+through Ingress.
+
+Set the option to `false` and restart the add-on if you want to configure and
+use Tautulli's own authentication inside Home Assistant Ingress.
+
 **Note**: _Remember to restart the add-on when the configuration is changed._
 
 Example add-on configuration:
@@ -73,17 +82,6 @@ you are troubleshooting.
 The recommended way to use Tautulli is through **Open Web UI** or the Home
 Assistant sidebar. Both use Home Assistant Ingress and do not require Tautulli
 to be exposed outside your Home Assistant instance.
-
-For direct access from your local network, the add-on also exposes Tautulli on
-port `8181`:
-
-```text
-http://homeassistant.local:8181
-```
-
-Replace `homeassistant.local` with the hostname or IP address of your Home
-Assistant system if needed. Direct access does not use Home Assistant's Ingress
-authentication, so configure and secure your network appropriately.
 
 ## Embedding into Home Assistant
 

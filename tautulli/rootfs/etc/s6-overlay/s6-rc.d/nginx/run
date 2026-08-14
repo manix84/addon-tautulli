@@ -2,7 +2,7 @@
 # shellcheck shell=bash
 # ==============================================================================
 # Home Assistant Community Add-on: Tautulli
-# Runs the direct and Ingress reverse proxy
+# Runs the Home Assistant Ingress reverse proxy
 # ==============================================================================
 bashio::net.wait_for 8182 localhost 60
 bashio::log.info "Starting Ingress proxy..."
