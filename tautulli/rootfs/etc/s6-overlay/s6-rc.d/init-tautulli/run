@@ -100,8 +100,7 @@ else
 
         DIRECT_PASSWORD_HASH="$(
           printf '%s' "$AUTHENTICATION_PASSWORD" \
-            | python3 -c \
-              'import crypt, secrets, string, sys; alphabet = string.ascii_letters + string.digits + "./"; salt = "".join(secrets.choice(alphabet) for _ in range(16)); print(crypt.crypt(sys.stdin.read(), "$6$" + salt + "$"))'
+            | openssl passwd -apr1 -stdin
         )"
 
         printf '%s:%s\n' \
