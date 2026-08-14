@@ -44,21 +44,40 @@ first time starting the add-on).
 
 ### Option: `disable_authentication`
 
-This option is enabled by default. It skips Tautulli's username and password
-step during first-run setup and relies on Home Assistant to authenticate users
-through Ingress.
+This option is enabled by default. It skips Tautulli's redundant username and
+password step during first-run setup and relies on Home Assistant to authenticate
+users through Ingress.
 
 Direct access on port `8181` is disabled while this option is enabled, because
-Tautulli does not have its own authentication protecting that endpoint. Set the
-option to `false` and restart the add-on to enable Tautulli's authentication.
-After configuring a Tautulli username and password, restart the add-on once more
-to re-enable direct access on port `8181`.
+Tautulli does not have its own authentication protecting that endpoint.
+
+Set the option to `false`, provide `authentication_username` and
+`authentication_password`, and restart the add-on to enable authentication and
+direct access. NGINX enforces these credentials before forwarding direct
+requests to Tautulli. Tautulli's own authentication remains disabled to avoid a
+second login prompt. Changing authentication settings inside Tautulli therefore
+cannot expose the direct port without a password.
+
+### Option: `authentication_username`
+
+The username NGINX requires for direct access when `disable_authentication` is
+`false`.
+
+### Option: `authentication_password`
+
+The password NGINX requires for direct access when `disable_authentication` is
+`false`. The password is masked in the Home Assistant configuration UI. Change
+direct-access credentials in the add-on options rather than in Tautulli.
+
+If either credential is missing, the add-on starts in its safe ingress-only mode
+and keeps direct access blocked.
 
 **Note**: _Remember to restart the add-on when the configuration is changed._
 
 Example add-on configuration:
 
 ```yaml
+disable_authentication: true
 log_level: info
 ```
 

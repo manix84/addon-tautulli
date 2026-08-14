@@ -1,12 +1,20 @@
 ---
 configuration:
   disable_authentication:
-    name: Disable Tautulli authentication
+    name: Disable direct-access authentication
     description: >-
-      Skips Tautulli's username and password setup and relies on Home Assistant
-      Ingress authentication. Direct access on port 8181 is blocked while this
-      option is enabled, and is restored after Tautulli authentication is
-      configured.
+      Relies on Home Assistant Ingress authentication and blocks direct access
+      on port 8181. Disable this option only when direct access is required.
+  authentication_username:
+    name: Authentication username
+    description: >-
+      Required when direct-access authentication is enabled. This protects port
+      8181 while Ingress continues to use Home Assistant authentication.
+  authentication_password:
+    name: Authentication password
+    description: >-
+      Required when direct-access authentication is enabled. Change it in the
+      add-on options; Tautulli cannot override the proxy authentication.
   log_level:
     name: Log level
     description: >-

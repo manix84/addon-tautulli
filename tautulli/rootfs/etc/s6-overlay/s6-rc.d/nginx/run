@@ -7,4 +7,4 @@
 bashio::net.wait_for 8182 localhost 60
 bashio::log.info "Starting Ingress proxy..."
 mkdir -p /var/log/nginx
-exec nginx -g "daemon off;"
+exec nginx -c /run/tautulli-nginx.conf -g "daemon off;"

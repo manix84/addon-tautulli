@@ -1,6 +1,6 @@
 ---
 name: Tautulli
-version: 0.2.1
+version: 0.2.2
 slug: tautulli
 description: Plex Media Server monitoring, analytics, and notifications
 url: https://github.com/hassio-addons/addon-tautulli/tree/main/README.md
@@ -25,6 +25,8 @@ options:
   disable_authentication: true
 schema:
   disable_authentication: bool?
+  authentication_username: match(^[A-Za-z0-9_.@-]+$)?
+  authentication_password: password?
   log_level: list(trace|debug|info|notice|warning|error|fatal)?
 ingress: true
 ingress_port: 8181
