@@ -38,8 +38,9 @@ With Tautulli you can:
 - The first start can take a few minutes while Tautulli is initialized.
 - Tautulli guides you through connecting to Plex when you first open the Web UI.
 - Home Assistant Ingress is used by default. Direct access on port `8181` is
-  enabled only when authentication credentials are configured in the add-on
-  options. NGINX enforces those credentials independently of Tautulli's settings.
+  enabled only when `disable_authentication` is `false` and both authentication
+  credentials are configured. Otherwise, use Home Assistant Ingress. NGINX
+  enforces direct credentials independently of Tautulli's settings.
 - Home Assistant Core can access Tautulli's API over the private app network;
   the web interface remains protected by Home Assistant Ingress.
 

@@ -8,8 +8,9 @@ and how each stream is being played.
 ## Getting started
 
 After starting the add-on, select **Open Web UI** to launch Tautulli inside Home
-Assistant. On first use, Tautulli's setup wizard will guide you through signing
-in and connecting to your Plex Media Server.
+Assistant. Home Assistant authenticates users before opening the Ingress page.
+On first use, Tautulli's setup wizard will guide you through connecting Tautulli
+to your Plex Media Server.
 
 Once setup is complete, you can use Tautulli to:
 

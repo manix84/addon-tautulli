@@ -55,6 +55,7 @@ crudini --set "$CONFIG" General check_github_on_startup 0
 # NGINX replaces this internal root with each request's Home Assistant Ingress
 # path. Direct access is rewritten back to root.
 crudini --set "$CONFIG" General http_proxy 1
+crudini --set "$CONFIG" General http_host "127.0.0.1"
 crudini --set "$CONFIG" General http_root "/ingress"
 
 # Authentication is enforced by Home Assistant for Ingress and, when enabled,
@@ -100,13 +101,13 @@ else
 
         DIRECT_PASSWORD_HASH="$(
           printf '%s' "$AUTHENTICATION_PASSWORD" \
-            | openssl passwd -apr1 -stdin
+            | openssl passwd -6 -stdin
         )"
 
         printf '%s:%s\n' \
           "$AUTHENTICATION_USERNAME" "$DIRECT_PASSWORD_HASH" \
           > "$DIRECT_AUTH_FILE"
-        chmod 0644 "$DIRECT_AUTH_FILE"
+        chmod 0600 "$DIRECT_AUTH_FILE"
 
         sed -i \
           's/# %%ACCESS_CONTROL%%/satisfy any; allow 172.30.32.2; deny all;/' \

@@ -5,12 +5,13 @@ configuration:
     description: >-
       Allows Home Assistant Core to reach only Tautulli's API endpoint over the
       internal app network. Requests still require the Tautulli API key, and
-      direct access to the web interface remains blocked.
+      direct web access remains controlled by the ingress-only setting.
   disable_authentication:
-    name: Disable direct-access authentication
+    name: Use Home Assistant Ingress only
     description: >-
-      Relies on Home Assistant Ingress authentication and blocks direct access
-      on port 8181. Disable this option only when direct access is required.
+      Uses Home Assistant authentication and blocks direct access on port 8181.
+      Disable this option and configure both credentials only when authenticated
+      direct access is required.
   authentication_username:
     name: Authentication username
     description: >-
